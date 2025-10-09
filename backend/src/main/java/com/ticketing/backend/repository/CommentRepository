@@ -1,0 +1,14 @@
+package com.ticketing.backend.repository;
+
+import com.ticketing.backend.model.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+// Feature 4: Repository for Comment CRUD operations
+@Repository
+public interface CommentRepository extends JpaRepository {
+    
+    // Feature 5: Derived query - find comments by ticket ID
+    List findByTicketIdOrderByCreatedAtAsc(Long ticketId);
+}
