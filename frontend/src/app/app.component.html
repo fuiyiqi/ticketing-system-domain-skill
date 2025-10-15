@@ -1,0 +1,26 @@
+<!-- Main application container -->
+<div class="app-container">
+  <!-- Header - Always shows the title, conditionally shows the navigation -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="logo">
+        <h1>Ticket System</h1>
+      </div>
+      @if (authService.isLoggedIn()) {
+      <nav class="main-nav">
+        <ul>
+          <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+          <li><a routerLink="/create-ticket" routerLinkActive="active">Create Ticket</a></li>
+          <li><a (click)="logout()" class="logout-btn">Logout</a></li>
+        </ul>
+      </nav>
+      }
+    </div>
+  </header>
+
+  <!-- Main content area - router outlet will display the current route's component -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

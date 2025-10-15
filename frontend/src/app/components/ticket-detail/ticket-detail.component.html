@@ -1,0 +1,142 @@
+<div class="detail-container">
+  <!-- Feature 6: Conditional rendering while loading -->
+  @if (isLoading) {
+    <div class="loading">Loading ticket details...</div>
+  } @else if (ticket) {
+    <div class="detail-card">
+      <div class="detail-header">
+        <!-- Feature 3: Click event for back navigation -->
+        <button class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+        
+        <div class="action-buttons">
+          <!-- Feature 6: Conditional button display based on edit mode -->
+          @if (!isEditing) {
+            <button class="edit-btn" (click)="toggleEdit()">Edit</button>
+            <button class="delete-btn" (click)="onDeleteTicket()">Delete</button>
+          } @else {
+            <button class="save-btn" (click)="onUpdateTicket()">Save</button>
+            <button class="cancel-btn" (click)="toggleEdit()">Cancel</button>
+          }
+        </div>
+      </div>
+
+      <!-- Feature 6: Switch between view and edit mode using @if -->
+      @if (!isEditing) {
+        <!-- View Mode -->
+        <div class="view-mode">
+          <!-- Feature 1: Interpolation to display ticket data -->
+          <h1 class="ticket-title">{{ ticket.title }}</h1>
+          
+          <div class="ticket-badges">
+            <!-- Feature 2: Dynamic class binding based on status -->
+            <span class="badge" [ngClass]="'status-' + ticket.status.toLowerCase().replace('_', '-')">
+              {{ ticket.status }}
+            </span>
+            <span class="badge" [ngClass]="'priority-' + ticket.priority.toLowerCase()">
+              {{ ticket.priority }}
+            </span>
+            <span class="badge severity">
+              {{ ticket.severity }}
+            </span>
+          </div>
+
+          <div class="ticket-info">
+            <div class="info-row">
+              <strong>Description:</strong>
+              <p>{{ ticket.description }}</p>
+            </div>
+            <div class="info-row">
+              <strong>Reporter:</strong>
+              <span>{{ getReporterName() }}</span>
+            </div>
+            <!-- Feature 6: Conditional display if assignee exists -->
+            @if (ticket.assigneeId) {
+              <div class="info-row">
+                <strong>Assignee:</strong>
+                <span>{{ getAssigneeName() }}</span>
+              </div>
+            }
+            <div class="info-row">
+              <strong>Created:</strong>
+              <span>{{ ticket.createdAt | date:'full' }}</span>
+            </div>
+            <div class="info-row">
+              <strong>Last Updated:</strong>
+              <span>{{ ticket.updatedAt | date:'full' }}</span>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <!-- Edit Mode -->
+        <!-- Feature 8: Reactive form for editing ticket -->
+        <div class="edit-mode">
+          <h2>Edit Ticket</h2>
+          <form (ngSubmit)="onUpdateTicket()" class="edit-form">
+            <div class="form-group">
+              <label for="edit-title">Title: *</label>
+              <!-- Feature 1: Two-way data binding -->
+              <input 
+                type="text" 
+                id="edit-title"
+                [(ngModel)]="editForm.title"
+                name="title"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="edit-description">Description: *</label>
+              <textarea 
+                id="edit-description"
+                [(ngModel)]="editForm.description"
+                name="description"
+                rows="6"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="edit-status">Status:</label>
+                <select id="edit-status" [(ngModel)]="editForm.status" name="status">
+                  <option value="OPEN">Open</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="RESOLVED">Resolved</option>
+                  <option value="CLOSED">Closed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="edit-priority">Priority:</label>
+                <select id="edit-priority" [(ngModel)]="editForm.priority" name="priority">
+                  <option value="LOW">Low</option>
+                  <option value="MEDIUM">Medium</option>
+                  <option value="HIGH">High</option>
+                  <option value="CRITICAL">Critical</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="edit-severity">Severity:</label>
+                <select id="edit-severity" [(ngModel)]="editForm.severity" name="severity">
+                  <option value="MINOR">Minor</option>
+                  <option value="MAJOR">Major</option>
+                  <option value="BLOCKER">Blocker</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
+
+      <!-- Feature 4: Include child component for comments -->
+      <!-- Feature 5: Pass ticket ID to child component -->
+      <div class="comments-section">
+        <app-comment-section 
+          [ticketId]="ticketId"
+          [currentUserId]="currentUserId">
+        </app-comment-section>
+      </div>
+    </div>
+  }
+</div>

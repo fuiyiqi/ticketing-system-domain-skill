@@ -1,0 +1,59 @@
+<!-- Feature 1: Interpolation and property binding -->
+<div class="dashboard-container">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <h1>Issue Ticketing System</h1>
+    </div>
+    <div class="nav-user">
+      <!-- Feature 1: Interpolation to display user info -->
+      <span class="welcome-text">Welcome, {{ currentUser?.username }}</span>
+      <span class="user-role" [class]="'role-' + currentUser?.role?.toLowerCase()">
+        {{ currentUser?.role }}
+      </span>
+      <!-- Feature 3: Event binding for logout -->
+      <button class="logout-btn" (click)="onLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="dashboard-content">
+    <div class="sidebar">
+      <h3>Filters</h3>
+      
+      <div class="filter-section">
+        <h4>Status</h4>
+        <!-- Feature 3: Event binding with select change -->
+        <select (change)="onStatusFilterChange($any($event.target).value)" class="filter-select">
+          <option value="">All Statuses</option>
+          <option value="OPEN">Open</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="RESOLVED">Resolved</option>
+          <option value="CLOSED">Closed</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <h4>Priority</h4>
+        <!-- Feature 3: Event binding for priority filter -->
+        <select (change)="onPriorityFilterChange($any($event.target).value)" class="filter-select">
+          <option value="">All Priorities</option>
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+          <option value="CRITICAL">Critical</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <!-- Feature 4: Child component included in parent -->
+      <!-- Feature 5: Passing data to child via @Input properties -->
+      <app-ticket-list 
+        [filterStatus]="filterStatus"
+        [filterPriority]="filterPriority"
+        [currentUserId]="currentUser?.userId || 0">
+      </app-ticket-list>
+    </div>
+  </div>
+</div>
+    
+  

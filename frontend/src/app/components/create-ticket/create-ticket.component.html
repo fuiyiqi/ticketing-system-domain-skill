@@ -1,0 +1,62 @@
+<div class="create-ticket-container">
+  <div class="header">
+    <h2>Create New Ticket</h2>
+    <button class="cancel-btn" (click)="onCancel()">
+      Back to Dashboard
+    </button>
+  </div>
+  
+  <div class="create-form-card">
+    <form (ngSubmit)="onCreateTicket()" class="create-form">
+      <div class="form-group">
+        <label for="title">Title: *</label>
+        <input 
+          type="text" 
+          id="title"
+          [(ngModel)]="newTicket.title"
+          name="title"
+          required
+          placeholder="Enter ticket title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description: *</label>
+        <textarea 
+          id="description"
+          [(ngModel)]="newTicket.description"
+          name="description"
+          rows="6"
+          required
+          placeholder="Describe the issue"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="priority">Priority:</label>
+          <select id="priority" [(ngModel)]="newTicket.priority" name="priority">
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="CRITICAL">Critical</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="severity">Severity:</label>
+          <select id="severity" [(ngModel)]="newTicket.severity" name="severity">
+            <option value="MINOR">Minor</option>
+            <option value="MAJOR">Major</option>
+            <option value="BLOCKER">Blocker</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-action-btn" (click)="onCancel()">Cancel</button>
+        <button type="submit" class="submit-btn">Create Ticket</button>
+      </div>
+    </form>
+  </div>
+</div>

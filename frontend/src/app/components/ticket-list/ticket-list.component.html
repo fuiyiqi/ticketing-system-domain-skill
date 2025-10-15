@@ -1,0 +1,51 @@
+<div class="ticket-list-container">
+  <div class="header">
+    <h2>Bug Tickets</h2>
+    <!-- Navigate to create ticket page -->
+    <button class="create-btn" (click)="navigateToCreateTicket()">
+      + New Ticket
+    </button>
+  </div>
+
+  <!-- Feature 6: Conditional display during loading -->
+  @if (isLoading) {
+    <div class="loading">Loading tickets...</div>
+  } @else {
+    <!-- Feature 6: Conditional for empty state -->
+    @if (tickets.length === 0) {
+      <div class="empty-state">
+        <p>No tickets found</p>
+      </div>
+    } @else {
+      <!-- List view of tickets -->
+      <div class="tickets-list">
+        <div class="list-header">
+          <div class="list-column id-column">ID</div>
+          <div class="list-column title-column">Title</div>
+          <div class="list-column priority-column">Priority</div>
+          <div class="list-column status-column">Status</div>
+          <div class="list-column reporter-column">Reporter</div>
+          <div class="list-column date-column">Created</div>
+        </div>
+        @for (ticket of tickets; track ticket.id; let i = $index; let isFirst = $first; let count = $count) {
+          <div class="ticket-list-item" [class]="'priority-' + ticket.priority.toLowerCase()" (click)="ticket.id && onTicketClick(ticket.id)">
+            <div class="list-column id-column">{{ ticket.id }}</div>
+            <div class="list-column title-column">
+              {{ ticket.title }}
+            </div>
+            <div class="list-column priority-column">
+              <span class="badge" [class]="'priority-' + ticket.priority.toLowerCase()">{{ ticket.priority }}</span>
+            </div>
+            <div class="list-column status-column">
+              <span class="badge" [class]="'status-' + ticket.status.toLowerCase().replace('_', '-')">{{ ticket.status }}</span>
+            </div>
+            <div class="list-column reporter-column">
+              {{ ticket.reporterUsername || 'User #' + ticket.reporterId }}
+            </div>
+            <div class="list-column date-column">{{ ticket.createdAt | date:'MMM d' }}</div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

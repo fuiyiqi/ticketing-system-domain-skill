@@ -1,0 +1,33 @@
+<!-- Feature 3: Click event binding on card -->
+<!-- Feature 2: Dynamic class binding with method call -->
+<div class="ticket-card" (click)="onClick()" [class]="getPriorityClass()">
+  <div class="card-header">
+    <!-- Feature 1: Interpolation to display ticket data -->
+    <h3 class="ticket-title">{{ ticket.title }}</h3>
+    <!-- Display just the ticket ID -->
+    <span class="ticket-number">ID: {{ ticket.id }}</span>
+  </div>
+
+  <!-- Feature 1: Interpolation for description -->
+  <p class="ticket-description">{{ ticket.description }}</p>
+
+  <div class="ticket-meta">
+    <!-- Feature 2: Dynamic class binding with method -->
+    <span class="badge" [class]="getStatusClass()">
+      {{ ticket.status }}
+    </span>
+    
+    <span class="badge" [class]="getPriorityClass()">
+      {{ ticket.priority }}
+    </span>
+
+    <span class="badge severity-badge">
+      {{ ticket.severity }}
+    </span>
+  </div>
+
+  <div class="ticket-footer">
+    <!-- Feature 1: Interpolation with date pipe -->
+    <small>Created: {{ ticket.createdAt | date:'short' }}</small>
+  </div>
+</div>
